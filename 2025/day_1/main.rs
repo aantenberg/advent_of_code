@@ -22,12 +22,10 @@ fn read_file(filepath: &str) -> Vec<String> {
         .collect()
 }
 
-enum Direction {
-    Right,
-    Left,
+enum Move {
+    Right(i32),
+    Left(i32),
 }
-
-type Move = (Direction, i32);
 
 fn parse_moves(lines: Vec<String>) -> Vec<Move> {
     lines.into_iter().map(|l| parse_move(&l)).collect()
@@ -35,13 +33,12 @@ fn parse_moves(lines: Vec<String>) -> Vec<Move> {
 
 fn parse_move(line: &str) -> Move {
     let first_char = &line[..1];
-    let direction = match first_char {
-        "R" => Direction::Right,
-        "L" => Direction::Left,
-        x => panic!("Invalid direction {}", x),
-    };
     let num = line[1..].parse::<i32>().unwrap();
-    (direction, num)
+    match first_char {
+        "R" => Move::Right(num),
+        "L" => Move::Left(num),
+        x => panic!("Invalid direction {}", x),
+    }
 }
 
 
@@ -70,8 +67,8 @@ fn count_zeros(moves: Vec<Move>) -> Solution {
 
 fn make_move(pos: i32, lock_move: &Move) -> i32 {
     match lock_move {
-        (Direction::Right, num) => pos + num,
-        (Direction::Left, num) => pos - num,
+        Move::Right(num) => pos + num,
+        Move::Left(num) => pos - num,
     }
 }
 
