@@ -20,7 +20,7 @@ fn read_file(filepath: &str) -> Vec<String> {
 }
 
 fn part_1(banks: &Vec<String>) -> i64 {
-    let num_batteries = 2;
+    let num_batteries = 3;
     banks.iter()
         .map(|bank| get_max_joltage(bank, num_batteries))
         .sum()
